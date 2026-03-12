@@ -85,40 +85,42 @@ checkCollisions(allCircles) {
                 // 15 fotogramas equivalen a un cuarto de segundo visible
                 this.flashFrames = 15;  // activa destello durante 15 segundos
                 otherCircle.flashFrames = 15;  // activa destello durante 15 segundos
-                this.resolveCollision(otherCircle); // se llama al metodo encargado de calcular el rebote          }
+                this.resolveCollision(otherCircle); // se llama al metodo encargado de calcular el rebote          
+                }
         }
     }
 }
 
 update(context, allCircles) {
-    this.checkCollisions(allCircles) // Verificar colisiones antes de dibujar
-    // Lógica para gestionar el destello azul
-        if (this.flashFrames > 0) {
-            this.color = "#0000FF"; // Mantener en azul
-            this.flashFrames--;     // Restar un fotograma al contador
-        } else {
-            this.color = this.originalColor; // Regresar a la normalidad
+        this.checkCollisions(allCircles); // Verificar colisiones antes de dibujar
+        // Lógica para gestionar el destello azul
+            if (this.flashFrames > 0) {
+                this.color = "#0000FF"; // Mantener en azul
+                this.flashFrames--;     // Restar un fotograma al contador
+            } else {
+                this.color = this.originalColor; // Regresar a la normalidad
+            }
+        
+        this.draw(context);
+
+        // Actualizar la posición X
+        this.posX += this.dx;
+        // Cambiar la dirección si el círculo llega al borde del canvas en X
+        if (this.posX + this.radius > window_width || this.posX - this.radius < 0) {
+            this.dx = -this.dx;
         }
-    
-    this.draw(context);
 
-    // Actualizar la posición X
-    this.posX += this.dx;
-    // Cambiar la dirección si el círculo llega al borde del canvas en X
-    if (this.posX + this.radius > window_width || this.posX - this.radius < 0) {
-        this.dx = -this.dx;
+        // Actualizar la posición Y
+        this.posY += this.dy;
+        // Cambiar la dirección si el círculo llega al borde del canvas en Y
+        if (this.posY + this.radius > window_height || this.posY - this.radius < 0) {
+            this.dy = -this.dy;
+        }
     }
-
-    // Actualizar la posición Y
-    this.posY += this.dy;
-    // Cambiar la dirección si el círculo llega al borde del canvas en Y
-    if (this.posY + this.radius > window_height || this.posY - this.radius < 0) {
-        this.dy = -this.dy;
-    }
-}
 }
 // Crear un array para almacenar N círculos
 let circles = [];
+
 // Función para generar círculos aleatorios
 function generateCircles(n) {
     for (let i = 0; i < n; i++) {
